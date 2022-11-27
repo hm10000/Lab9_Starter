@@ -115,23 +115,21 @@
 
       // Start your code here
       // You may move this JS to another file if you wish
-      const consoleLogEl = document.querySelector("#console-log");
-      const consoleErrorEl = document.querySelector("#console-error");
-      const consoleCountEl = document.querySelector("#console-count");
-      const consoleWarnEl = document.querySelector("#console-warn");
-      const consoleAssertEl = document.querySelector("#console-assert");
-      const consoleClearEl = document.querySelector("#console-clear");
-      const consoleDirEl = document.querySelector("#console-dir");
-      const consoleDirxmlEl = document.querySelector("#console-dirxml");
-      const consoleGroupStart = document.querySelector("#console-group-start");
-      const consoleGroupEnd = document.querySelector("#console-group-end");
-      const consoleTableEl = document.querySelector("#console-table");
-      const consoleStartTimerEl = document.querySelector("#start-timer");
-      const consoleEndTimerEl = document.querySelector("#end-timer");
-      const consoleTraceEl = document.querySelector("#console-trace");
-      const consoleGlobalErrorEl = document.querySelector("#global-error");
-
-      let count = 0;
+      const consoleLogEl = errorBtns[0];
+      const consoleErrorEl = errorBtns[1];
+      const consoleCountEl = errorBtns[2];
+      const consoleWarnEl = errorBtns[3];
+      const consoleAssertEl = errorBtns[4];
+      const consoleClearEl = errorBtns[5];
+      const consoleDirEl = errorBtns[6];
+      const consoleDirxmlEl = errorBtns[7];
+      const consoleGroupStart = errorBtns[8];
+      const consoleGroupEnd = errorBtns[9];
+      const consoleTableEl = errorBtns[10];
+      const consoleStartTimerEl = errorBtns[11];
+      const consoleEndTimerEl = errorBtns[12];
+      const consoleTraceEl = errorBtns[13];
+      const consoleGlobalErrorEl = errorBtns[14];
 
       consoleLogEl.addEventListener("click", () => {
         console.log("Console Log Demo");
@@ -139,11 +137,34 @@
 
       consoleErrorEl.addEventListener("click", () => {
         console.error("Console Error Demo");
+
+        //Step 3 - Trying Try/Catch, Step 4
+
+        try {
+            somethingError
+        }
+        catch(error) {
+          if (error instanceof ReferenceError) {
+              throw new MyError("Custom Error", error);
+            } else {
+              throw error;
+            }
+        }
+
+        finally {
+            console.log('Finally will execute every time');
+        }
       });
 
+      class MyError extends Error {
+          constructor(message) {
+            super(message);
+            this.name = this.constructor.name;
+          }
+        }
+
       consoleCountEl.addEventListener("click", () => {
-        count++;
-        console.log(`Count Button: ${count}`);
+        console.count("Count Click");
       });
 
       consoleWarnEl.addEventListener("click", () => {
@@ -190,41 +211,28 @@
       });
 
       consoleTraceEl.addEventListener("click", () => {
-        const first = () => { second(); };
-        const second = () => { third(); };
-        const third = () => { fourth(); };
-        const fourth = () => { console.trace(); };
-        first();
+        const handleBtnClick = () => { deep(); };
+        const deep = () => { deeper(); };
+        const deeper = () => { deepest(); };
+        const deepest = () => { console.trace(); };
+        try {
+          handleBtnClick();
+        }
+        catch (err) {
+          throw err;
+        }
+        finally {
+          console.log("testing finally");
+        }
       });
 
       consoleEndTimerEl.addEventListener("click", () => {
         console.timeEnd("Timer Button:");
       });
 
-      //Step 3 - Trying Try/Catch, Step 4
-
-      // const numerator= 100, denominator = 'a';
-
-      // try {
-      //     console.log(numerator/denominator);
-      //     console.log(a);
-      //     throw new MyError("Whoops!")
-      // }
-      // catch(error) {
-      //     console.log('An error caught'); 
-      //     console.log('Error message: ' + error);  
-      // }
-
-      // finally {
-      //     console.log('Finally will execute every time');
-      // }
-
-      // class MyError extends Error {
-      //   constructor(message) {
-      //     super(message);
-      //     this.name = this.constructor.name;
-      //   }
-      // }
+      consoleGlobalErrorEl.addEventListener("click", () => {
+        console.log(boom);
+      })
 
       
                         
